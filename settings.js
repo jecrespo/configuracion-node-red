@@ -73,14 +73,14 @@ module.exports = {
     /** To password protect the Node-RED editor and admin API, the following
      * property can be used. See http://nodered.org/docs/security.html for details.
      */
-    //adminAuth: {
-    //    type: "credentials",
-    //    users: [{
-    //        username: "admin",
-    //        password: "$2a$08$zZWtXTja0fB1pzD4sHCMyOCMYz2Z6dNbM6tl8sJogENOMcxWV9DN.",
-    //        permissions: "*"
-    //    }]
-    //},
+    adminAuth: {
+        type: "credentials",
+        users: [{
+            username: "admin",
+            password: "password cifrada usando node-red admin hash-pw",
+            permissions: "*"
+        }]
+    },
 
     /** The following property can be used to enable HTTPS
      * This property can be either an object, containing both a (private) key
@@ -90,10 +90,11 @@ module.exports = {
      */
 
     /** Option 1: static object */
-    //https: {
-    //  key: require("fs").readFileSync('privkey.pem'),
-    //  cert: require("fs").readFileSync('cert.pem')
-    //},
+    // Generar certificados siguendo: https://aprendiendoarduino.wordpress.com/2020/03/08/configurar-y-securizar-node-red/
+    https: {
+      key: require("fs").readFileSync('/ruta/a/privkey.pem'),
+      cert: require("fs").readFileSync('/ruta/a/cert.pem')
+    },
 
     /** Option 2: function that returns the HTTP configuration object */
     // https: function() {
@@ -114,7 +115,7 @@ module.exports = {
     /** The following property can be used to cause insecure HTTP connections to
      * be redirected to HTTPS.
      */
-    //requireHttps: true,
+    requireHttps: true,
 
     /** To password protect the node-defined HTTP endpoints (httpNodeRoot),
      * including node-red-dashboard, or the static content (httpStatic), the
@@ -122,8 +123,8 @@ module.exports = {
      * The `pass` field is a bcrypt hash of the password.
      * See http://nodered.org/docs/security.html#generating-the-password-hash
      */
-    //httpNodeAuth: {user:"user",pass:"$2a$08$zZWtXTja0fB1pzD4sHCMyOCMYz2Z6dNbM6tl8sJogENOMcxWV9DN."},
-    //httpStaticAuth: {user:"user",pass:"$2a$08$zZWtXTja0fB1pzD4sHCMyOCMYz2Z6dNbM6tl8sJogENOMcxWV9DN."},
+    httpNodeAuth: {user:"user",pass:"password cifrada usando node-red admin hash-pw"},
+    httpStaticAuth: {user:"user",pass:"password cifrada usando node-red admin hash-pw"},
 
 /*******************************************************************************
  * Server Settings
@@ -262,11 +263,11 @@ module.exports = {
       * provided here will enable file-based context that flushes to disk every 30 seconds.
       * Refer to the documentation for further options: https://nodered.org/docs/api/context/
       */
-     //contextStorage: {
-     //    default: {
-     //        module:"localfilesystem"
-     //    },
-     //},
+     contextStorage: {
+        default: "memoryOnly",
+        memoryOnly: { module: 'memory' },
+        file: { module: 'localfilesystem' }
+     },
 
      /** `global.keys()` returns a list of all properties set in global context.
       * This allows them to be displayed in the Context Sidebar within the editor.
@@ -345,7 +346,7 @@ module.exports = {
 
         projects: {
             /** To enable the Projects feature, set this value to true */
-            enabled: false,
+            enabled: true,
             workflow: {
                 /** Set the default projects workflow mode.
                  *  - manual - you must manually commit changes
@@ -361,7 +362,7 @@ module.exports = {
             /** Select the text editor component used by the editor.
              * Defaults to "ace", but can be set to "ace" or "monaco"
              */
-            lib: "ace",
+            lib: "monaco",
             options: {
                 /** The follow options only apply if the editor is set to "monaco"
                  *
